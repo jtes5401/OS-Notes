@@ -180,28 +180,31 @@
 		<td>Descriptioin</td>
 	</tr>
 	<tr>
-		<td>1</td>
+		<td>1.Suspend(swap out)</td>
 		<td></td>
 	</tr>
 	<tr>
-		<td>2</td>
+		<td>Activate(swap in)</td>
 		<td></td>
 	</tr>
 	<tr>
-		<td>3</td>
-		<td></td>
+		<td>2.Suspend(swap out)</td>
+		<td>支持此Transition之理由有二：
+			<br>1.所有 Blocked Process 皆 Swap out 後，Memory space 仍不足時
+			<br>2.所有 Blocked state process 之優先權皆高於 ready state process 時
+		</td>
 	</tr>
 	<tr>
-		<td>4</td>
-		<td></td>
+		<td>3.Transition</td>
+		<td>This is a poor Design,但仍可支持，理由如下：
+			<br>若所有 Block/Suspend State 之 process 優先權皆高於 Ready/Suspend process 且 OS believes Them will become ready soon
+		</td>
 	</tr>
 	<tr>
-		<td>5</td>
-		<td>This is a poor Design,但由基於下列情況，可能存在</td>
-	</tr>
-	<tr>
-		<td>6</td>
-		<td>also poor design,支持理由,當Blocked/suspend process變成ready/suspend時OS有可能強迫低優先權的running process放掉CPU及Memory供高優先權</td>
+		<td>4.Transition</td>
+		<td>It's also a poor design,但仍可支持理由如下：
+			<br>若有一個高優先權 Process 從Blocked/Suspend process 變成 Ready/Suspend 時 OS 可以強迫低優先權的 running process 放掉 CPU 及 Memory 供高優先權使用
+		</td>
 	</tr>
 </table>
 
