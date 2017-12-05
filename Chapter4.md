@@ -159,6 +159,45 @@
 
 ## 7個State之STD[Stalling]
 
+<pre>                                                                                                                                                                    
+                                                                                            
+  ┌───────────────────────────────────────────────────────────────────────────────────┐                               
+  │                                             4.Swap out                            │                               
+  │                                               suspend                             │                               
+  │              ┌─────────────┐                                                      │                               
+  │              │             │                                                      │                               
+  │     ┌────────│     New     │─ ─ ─ ─ ─ ─ ─                                         │                               
+  │     │        │             │             │                                        │                               
+  │     │        └─────────────┘                                                      │                               
+  │     │                                    │Admit(Enough Memory)                    │                               
+  │     │Admit(Not Enough Memory)                                                     │                               
+  │     │                                    │                                        │                               
+  │     │                                                                             │                               
+  │     │                                    │                                        │                               
+  ▼     ▼                                    ▼                                        │                               
+ ┌─────────────┐      2. suspend      ┌─────────────┐                                 │                               
+ │             │◀─────────────────────│             │             Dispatch            │                               
+ │Ready/Suspend│                      │    Ready    │────────────────────────────┐    │                               
+ │             │─────────────────────▶│             │◀─────────┐                 │    │                               
+ └─────────────┘      Activate        └─────────────┘          │                 ▼    │                               
+        ▲                                    ▲         Time out│          ┌─────────────┐              ┌─────────────┐
+        │                                    │                 │          │             │   release    │             │
+        │                                    │                 └──────────│   Running   │─────────────▶│    Exit     │
+  Event │                                    │ Event                      │             │              │             │
+  Occurs│                                    │ Occurs                     └─────────────┘              └─────────────┘
+        │                                    │                                   │                                    
+ ┌─────────────┐                      ┌─────────────┐                            │                                    
+ │             │    1. suspend        │             │                            │                                    
+ │Block/Suspend│◀─────────────────────│    Block    │◀───────────────────────────┘                                    
+ │             │                      │             │          Event waits                                            
+ └─────────────┘                      └─────────────┘                                                                 
+        │                                    ▲                                                                        
+        │                                    │                                                                        
+        └────────────────────────────────────┘                                                                        
+                3.Activate(Swap in)                                                                                   
+                                                                                                                      
+</pre>
+
 <table>
 	<tr>
 		<td>State</td>
@@ -181,11 +220,13 @@
 	</tr>
 	<tr>
 		<td>1.Suspend(swap out)</td>
-		<td></td>
+		<td>當Memory空間不足,又有其他高優先權Process須更多Memory space時，會由Medium-term scheduler 決定將Blocked process swap-out到Disk,以空出 memory space
+		</td>
 	</tr>
 	<tr>
 		<td>Activate(swap in)</td>
-		<td></td>
+		<td>當Memory有空，Medium-term scheduler可將它們 swap in 回 memory中 ready for excution
+		</td>
 	</tr>
 	<tr>
 		<td>2.Suspend(swap out)</td>
@@ -208,4 +249,3 @@
 	</tr>
 </table>
 
-## Unix STD[Stalling]
